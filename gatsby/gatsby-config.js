@@ -8,8 +8,10 @@ export default {
     title: 'Slicks Slices',
     siteUrl: 'https://gatsby.pizza',
     description: 'The best pizza place in Shoreline',
+    twitter: '@slicksSlices',
   },
   plugins: [
+    'gatsby-plugin-react-helmet',
     'gatsby-plugin-styled-components',
     {
       // name of the plugin

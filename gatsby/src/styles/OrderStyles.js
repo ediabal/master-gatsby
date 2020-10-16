@@ -13,10 +13,18 @@ const OrderStyles = styled.form`
     gap: 1rem;
     align-content: start;
 
+    input {
+      margin-left: 1rem;
+    }
+
     &.order,
     &.menu {
       grid-column: span 1;
     }
+  }
+
+  .mapleSyrup {
+    display: none;
   }
 
   @media (max-width: 900px) {

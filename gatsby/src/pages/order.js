@@ -17,17 +17,31 @@ export default function OrderPage({ data }) {
   const { values, updateValue } = useForm({
     name: '',
     email: '',
+    mapleSyrup: '',
   });
-  const { order, addToOrder, removeFromOrder } = usePizza({
+
+  const {
+    order,
+    addToOrder,
+    removeFromOrder,
+    submitOrder,
+    error,
+    loading,
+    message,
+  } = usePizza({
     pizzas,
-    inputs: values,
+    values,
   });
+
+  if (message) {
+    return <p>{message}</p>;
+  }
 
   return (
     <>
       <SEO title="Order a Pizza" />
-      <OrderStyles>
-        <fieldset>
+      <OrderStyles onSubmit={submitOrder}>
+        <fieldset disabled={loading}>
           <legend>Your Info</legend>
           <label htmlFor="name">
             Name
@@ -37,6 +51,7 @@ export default function OrderPage({ data }) {
               id="name"
               value={values.name}
               onChange={updateValue}
+              required
             />
           </label>
 
@@ -48,10 +63,19 @@ export default function OrderPage({ data }) {
               id="email"
               value={values.email}
               onChange={updateValue}
+              required
             />
           </label>
+          <input
+            type="mapleSyrup"
+            name="mapleSyrup"
+            id="mapleSyrup"
+            value={values.mapleSyrup}
+            onChange={updateValue}
+            className="mapleSyrup"
+          />
         </fieldset>
-        <fieldset className="menu">
+        <fieldset className="menu" disabled={loading}>
           <legend>Menu</legend>
           {pizzas.map((pizza) => (
             <MenuItemStyles key={pizza.id}>
@@ -83,7 +107,7 @@ export default function OrderPage({ data }) {
             </MenuItemStyles>
           ))}
         </fieldset>
-        <fieldset className="order">
+        <fieldset className="order" disabled={loading}>
           <legend>Order</legend>
           <PizzaOrder
             order={order}
@@ -91,9 +115,12 @@ export default function OrderPage({ data }) {
             removeFromOrder={removeFromOrder}
           />
         </fieldset>
-        <fieldset>
+        <fieldset disabled={loading}>
           <h3>Your Total is {formatMoney(calcOrderTotal(order, pizzas))}</h3>
-          <button type="submit">Order Ahead</button>
+          <div>{error ? <p>Error: {error}</p> : ''}</div>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Placing Order...' : 'Order Ahead'}
+          </button>
         </fieldset>
       </OrderStyles>
     </>

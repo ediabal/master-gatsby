@@ -8,7 +8,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "lint": "eslint .",
-    "start": "sanity start"
+    "start": "sanity start",
+    "deploy": "sanity deploy",
+    "deploy:graphql": "sanity graphql deploy production",
+    "import": "sanity dataset import ./sample-data/all-sample-data.gz production --replace"
   },
   "keywords": [
     "sanity"
